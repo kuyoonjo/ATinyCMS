@@ -1,0 +1,19 @@
+$bgDefault      : hotpink;
+$bgHighlight    : deeppink;
+$colDefault     : whitesmoke;
+$colHighlight   : white;
+$colSelected    : pink;
+
+@mixin crossBrowser($property, $css) {
+  -webkit-#{$property} : $css;
+  -moz-#{$property} : $css;
+  -o-#{$property} : $css;
+  #{$property} : $css;
+}
+
+@mixin keyframes($name) {
+  @-webkit-keyframes #{$name} {@content;}
+  @-moz-keyframes #{$name} {@content;}
+  @-o-keyframes #{$name} {@content;}
+  @keyframes #{$name} {@content;}
+}

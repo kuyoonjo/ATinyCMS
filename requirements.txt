@@ -1,0 +1,7 @@
+Django==1.8.3
+Pillow==2.9.0
+django-ckeditor==4.5.0
+django-compressor==1.5
+django-haystack==2.4.0
+django-mptt==0.7.4
+django-mptt-admin==0.2.1

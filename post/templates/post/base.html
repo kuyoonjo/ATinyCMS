@@ -1,0 +1,49 @@
+{% load compress %}
+{% load staticfiles %}
+{% load mptt_tags %}
+
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp" ng-controller="myCtrl">
+<head>
+<meta charset="UTF-8">
+<title ng-bind="title">Loading...</title>
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+<script src="{% static 'post/js/functions.js' %}"></script>
+<script>
+    var image_logo_kitty_uri = "{% static 'post/images/logo_kitty.png' %}";
+    var image_bullet_kitty_uri = "{% static 'post/images/bullet_kitty.gif' %}";
+    var config = {{ config|safe }};
+</script>
+
+{% compress css %}
+    <link rel="stylesheet" type="text/scss" href="{% static 'post/css/default.scss' %}" />
+{% endcompress %}
+</head>
+
+<body yc-body>
+<img ng-src="{% verbatim %}{{ settings.bgImage }}{% endverbatim %}" class="bg" />
+<img ng-src="{% verbatim %}{{ settings.headImage }}{% endverbatim %}" class="head" />
+<header><h1 class="site_name">{% verbatim %}{{ settings.header }}{% endverbatim %}</h1></header>
+<nav yc-navbar in-search="inSearch" class="navbar navbar-default mega-menu"></nav>
+{# {% include "post/navigators.html" %} #}
+{# <NG ng-init="showResult(data.current)" ng-include src="articles" onload="refresh()"></NG> #}
+<div class="container-fluid">
+<div class="row view-container">
+<div ng-view yc-article-animate class="col-sm-12"></div>
+</div></div>
+<footer ng-style="footer.style" ng-show="showFooter">{% verbatim %}{{ settings.footer }}{% endverbatim %}</footer>
+<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular-route.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular-animate.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular-sanitize.min.js"></script>
+<script src="{% static 'post/js/app.js' %}"></script>
+<script src="{% static 'post/js/factories.js' %}"></script>
+<script src="{% static 'post/js/directives.js' %}"></script>
+<script src="{% static 'post/js/controllers.js' %}"></script>
+</body>
+
+{# <script src="{% static 'post/style.js' %}"></script> #}
+</html>

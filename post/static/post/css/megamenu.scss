@@ -1,0 +1,81 @@
+$searchBoxBorderRadius: 25px;
+$styleMain: $bgDefault;
+$styleDeep: $bgHighlight;
+$paneSolid: rgba(255, 255,255, .9);
+$paneTransparent: rgba(255, 255, 255, .3);
+
+.mega-menu {
+  .nav, .collapse, .dropup, .dropdown {
+    position: static;
+  }
+  .container {
+    position: relative;
+  }
+  .dropdown-menu {
+    left: auto;
+  }
+
+  .mega-menu-content {
+    padding: 20px 30px;
+    .category {
+      text-transform: uppercase;
+      font-size: larger;
+      border-bottom:1px solid $styleMain;
+      margin-bottom: 10px;
+      a {
+        color: $styleMain;;
+        text-decoration: none;
+      }
+    }
+    .post {
+      font-family:Verdana;
+      font-size: medium;
+      li {
+        background: no-repeat left bottom;
+        list-style: none;
+        padding-left: 30px;
+      }
+    }
+  }
+
+  .mega-menu-search {
+    padding: 0px 20px;
+    .search-box {
+      border: 1px solid $styleMain;
+      border-radius: $searchBoxBorderRadius;
+      input {
+        border-top-left-radius: $searchBoxBorderRadius;
+        border-bottom-left-radius: $searchBoxBorderRadius;
+      }
+      button {
+        border-top-right-radius: $searchBoxBorderRadius;
+        border-bottom-right-radius: $searchBoxBorderRadius;
+      }
+    }
+  }
+
+  .dropdown.mega-menu-fw {
+    .dropdown-menu {
+      left: 0;
+      right: 0;
+      background-color: $paneSolid;
+    }
+    .dropdown-menu.transparent {
+      background-color: $paneTransparent;
+    }
+  }
+}
+
+.open > .dropdown-menu {
+  @include crossBrowser(transform, scale(1, 1));
+  opacity: 1;
+}
+
+.dropdown-menu {
+  opacity: 0;
+  @include crossBrowser(transform-origin, top);
+  @include crossBrowser(animation-fill-mode, forwards);
+  @include crossBrowser(transform, scale(1, 0));
+  display: block;
+  @include crossBrowser(transition, all 0.3s ease-out);
+}

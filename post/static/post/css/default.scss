@@ -1,0 +1,119 @@
+@import "mixins";
+@import "navstyle";
+@import "megamenu";
+@import "animations";
+
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  ::selection {
+    background: $colSelected;
+  }
+  a {
+    color: $bgDefault;
+    &:hover {
+      color: $bgHighlight;
+    }
+  }
+}
+
+img.bg {
+  z-index: -2;
+  /* Set rules to fill background */
+  min-height: 100%;
+  min-width: 1024px;
+
+  /* Set up proportionate scaling */
+  width: 100%;
+  height: auto;
+
+  /* Set up positioning */
+  position: fixed;
+  top: 0;
+  left: 0;
+
+}
+
+img.head {
+  z-index: -1;
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+@media screen and (max-width: 1024px) { /* Specific to this particular image */
+  img.bg {
+    left: 50%;
+    margin-left: -512px;   /* 50% */
+  }
+}
+
+nav.affix{
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 10;
+}
+
+header {
+  .site_name {
+    color: $bgDefault;
+    text-align: center;
+  }
+}
+
+
+footer {
+  width: 100%;
+  background-color: $bgDefault;
+  text-align: center;
+  margin-top: 50px;
+  padding-top: 25px;
+  padding-bottom: 25px;
+  color: ghostwhite;
+  font-size: small;
+}
+
+
+article {
+  margin: 30px 30px 10px;
+  .wrap {
+    padding: 20px 40px;
+    position: relative;
+  }
+
+  .bg {
+    background-color: white;
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    opacity: .8;
+  }
+
+  .title {
+    z-index: 1;
+    position: relative;
+    padding-bottom:17px;
+    margin:18px 0;
+    border-bottom:1px solid $bgDefault;
+  }
+
+  .content {
+    z-index: 1;
+    position: relative;
+    margin-top: 50px;
+    font-size: medium;
+    padding-bottom: 40px;
+  }
+
+  .search {
+    @extend .content;
+    .highlighted {
+      background-color: $colSelected;
+    }
+  }
+}

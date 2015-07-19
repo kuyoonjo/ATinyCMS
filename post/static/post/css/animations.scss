@@ -1,0 +1,28 @@
+.view-container {
+  position: relative;
+  top: 0px;
+  left: 0px;
+}
+.view-frame.ng-enter, .view-frame.ng-leave {
+  position: absolute;
+}
+
+
+.view-frame.ng-enter {
+  @include crossBrowser(animation, 0.7s fade-in);
+}
+
+.view-frame.ng-leave {
+  @include crossBrowser(animation, 0.3s fade-out);
+}
+
+@include keyframes(fade-in) {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+
+@include keyframes(fade-out) {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
