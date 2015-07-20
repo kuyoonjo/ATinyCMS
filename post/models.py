@@ -65,8 +65,10 @@ class Post(models.Model):
     category = TreeForeignKey(Category)
     title = models.CharField(max_length=256)
     content = RichTextField()
-    pub_date = models.DateField(auto_now_add=True, verbose_name='Date Published')
-    mod_date = models.DateField(auto_now=True, verbose_name='Date Modified')
+    pub_date = models.DateTimeField(auto_now_add=True, verbose_name='Date Published')
+    mod_date = models.DateTimeField(auto_now=True, verbose_name='Date Modified')
+    show_date = models.BooleanField(default=False)
+    show_author = models.BooleanField(default=False)
 
     def __str__(self):
         return self.title
@@ -77,6 +79,19 @@ class Post(models.Model):
     @property
     def abs_uri(self):
         return self.category.abs_uri + self.uri
+
+    def dict(self):
+        return {
+            'id': self.pk,
+            'title': self.title,
+            'content': self.content,
+            'uri': self.abs_uri,
+            'category': self.category.pk,
+            'pub_date': self.pub_date.strftime('%d %b %Y %I:%M %p'),
+            'mod_date': self.mod_date.strftime('%d %b %Y %I:%M %p'),
+            'show_date': self.show_date,
+            'show_author': self.show_author
+        }
 
 class Navigator(models.Model):
     NORMAL = 'TN'
@@ -121,6 +136,7 @@ class Setting(models.Model):
     title = models.CharField(max_length=256)
     header = models.CharField(max_length=256)
     footer = models.CharField(max_length=256)
+    author = models.CharField(max_length=256)
     email = models.EmailField()
     bgImage = models.ImageField(upload_to='images')
     headImage = models.ImageField(upload_to='images')
@@ -131,10 +147,12 @@ class Setting(models.Model):
             'title': self.title,
             'header': self.header,
             'footer': self.footer,
+            'author': self.author,
             'email': self.email,
             'bgImage': self.bgImage.url,
             'headImage': self.headImage.url,
-            'home': self.home
+            'home': self.home,
+            'site': self.site.domain
         }
 
     def delete(self, *args, **kwargs):

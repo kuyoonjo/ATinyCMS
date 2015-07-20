@@ -3,9 +3,9 @@
  */
 
 
-var app = angular.module('myApp', ['ngRoute', 'ngAnimate', 'ngSanitize']);
+var app = angular.module('myApp', ['ngRoute', 'ngAnimate', 'ngSanitize', 'ezfb']);
 
-app.config(function($httpProvider, $routeProvider, $locationProvider) {
+app.config(function($httpProvider, $routeProvider, $locationProvider, ezfbProvider) {
     $routeProvider
         .when(config.settings.searchUri, {
                 templateUrl: parse('%spost/html/search.html', config.settings.staticUri),
@@ -22,6 +22,11 @@ app.config(function($httpProvider, $routeProvider, $locationProvider) {
     $locationProvider.html5Mode({
         enabled: true,
         requireBase: false
+    });
+
+    ezfbProvider.setInitParams({
+        appId: '375005332696718',
+        version: 'v2.4'
     });
 });
 

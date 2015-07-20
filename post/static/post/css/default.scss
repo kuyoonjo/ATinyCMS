@@ -4,10 +4,12 @@
 @import "animations";
 
 body {
+  font-family: Arial, Helvetica, sans-serif;
   margin: 0;
   padding: 0;
   height: 100%;
   ::selection {
+    color: $colHighlight;
     background: $colSelected;
   }
   a {
@@ -100,6 +102,10 @@ article {
     padding-bottom:17px;
     margin:18px 0;
     border-bottom:1px solid $bgDefault;
+    font-size: xx-large;
+    a {
+      text-decoration: none;
+    }
   }
 
   .content {
@@ -108,6 +114,11 @@ article {
     margin-top: 50px;
     font-size: medium;
     padding-bottom: 40px;
+
+    .footer {
+      color: palevioletred;
+      margin-top: 20px;
+    }
   }
 
   .search {
@@ -116,4 +127,5 @@ article {
       background-color: $colSelected;
     }
   }
+
 }

@@ -1,9 +1,20 @@
 <article ng-repeat="d in data">
     <div class="wrap">
         <div class="title">
-            <h1>{{ d.title }}</h1>
+            <a ng href="{{ d.uri }}">{{ d.title }}</a>
         </div>
-        <div class="content" ng-bind-html="d.content">
+        <div class="content">
+            <div ng-bind-html="d.content"></div>
+            <div class="footer" ng-if="d.show_date">
+                Post <span ng-if="d.show_author">by
+                <a ng-href="mailto:{{ email }}">{{ author }} </a> </span>at
+                <span class="datetime"> {{ d.mod_date }}</span>
+            </div>
+            <div class="fb-comments"
+                 data-href="{{ 'http://' + site + '/' + d.uri }}"
+                 data-numposts="5"
+                 data-colorscheme="light">
+            </div>
         </div>
         <div class="bg">
         </div>

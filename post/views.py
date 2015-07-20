@@ -34,12 +34,7 @@ def article_view(request, category_uri=None, post_uri=None):
     else:
         posts = get_list_or_404(Post, category=category)
 
-    articles_dict = [{
-        'title': p.title,
-        'content': p.content,
-        'uri': p.abs_uri,
-        'category': p.category.name
-    } for p in posts]
+    articles_dict = [p.dict() for p in posts]
     return HttpResponse(json.dumps(articles_dict), content_type="application/json")
 
 def search_view(request):

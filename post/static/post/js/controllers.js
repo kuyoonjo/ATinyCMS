@@ -11,6 +11,9 @@ app.controller('myArticleCtrl', function($scope, $rootScope, $routeParams, navig
     json.load($scope.settings.articleUri + $routeParams.uri)
         .then(function(data){
             $scope.data = data;
+            $scope.author = $rootScope.settings.author;
+            $scope.email = $rootScope.settings.email;
+            $scope.site = $rootScope.settings.site;
             if(data.length > 1) {
                 $rootScope.title = data[0].category + ' - ' + $rootScope.settings.title;
             } else {
