@@ -2,4 +2,7 @@
 .idea
 .sass-cache
 .static/*
+!.static/ckeditor/lineutils/*
+!.static/ckeditor/widget/*
+!.static/ckeditor/codesnippet/*
 homepage.iml
