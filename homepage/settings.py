@@ -131,6 +131,9 @@ CKEDITOR_IMAGE_BACKEND = 'pillow'
 CKEDITOR_CONFIGS = {
     'default': {
         'toolbar': 'full',
+        "removePlugins": "stylesheetparser",
+        'extraPlugins': 'codesnippet',
+        'allowedContent': True
     },
 }
 

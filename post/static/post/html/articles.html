@@ -1,19 +1,23 @@
-<article ng-repeat="d in data">
+<article ng-repeat="d in data" ngc-done="'HighlightCode'">
     <div class="wrap">
         <div class="title">
             <a ng href="{{ d.uri }}">{{ d.title }}</a>
         </div>
         <div class="content">
-            <div ng-bind-html="d.content"></div>
+            <div ng-bind-html="trustAsHtml(d.content)"></div>
             <div class="footer" ng-if="d.show_date">
+                Modified: <span class="datetime">{{ d.mod_date }}</span>,
                 Post <span ng-if="d.show_author">by
                 <a ng-href="mailto:{{ email }}">{{ author }} </a> </span>at
-                <span class="datetime"> {{ d.mod_date }}</span>
+                <span class="datetime"> {{ d.pub_date }}</span>
             </div>
-            <div class="fb-comments"
-                 data-href="{{ 'http://' + site + '/' + d.uri }}"
-                 data-numposts="5"
-                 data-colorscheme="light">
+            <div class="comment" ng-if="d.show_comment">
+                <div class="fb-comments"
+                     data-href="{{ 'http://' + site + '/' + d.uri }}"
+                     data-numposts="8"
+                     data-order-by="reverse_time"
+                     data-colorscheme="light">
+                </div>
             </div>
         </div>
         <div class="bg">

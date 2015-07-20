@@ -92,3 +92,22 @@ app.directive('ycArticleAnimate', function($animate, $rootScope){
         });
     };
 });
+
+app.directive('ngcDone', function ($timeout) {
+    return function (scope, element, attrs) {
+        scope.$watch(attrs.ngcDone, function (callback) {
+
+            if (scope.$last === undefined) {
+                scope.$watch('data', function () {
+                    if (scope.data !== undefined) {
+                        $timeout(eval(callback), 1);
+                    }
+                });
+            }
+
+            if (scope.$last) {
+                eval(callback)();
+            }
+        });
+    }
+});

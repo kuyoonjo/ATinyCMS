@@ -10,3 +10,9 @@ function parse(str) {
         return args[i++];
     });
 }
+
+function HighlightCode() {
+    $('pre code').each(function(i, block) {
+        hljs.highlightBlock(block);
+    });
+}

@@ -2,6 +2,7 @@
 @import "navstyle";
 @import "megamenu";
 @import "animations";
+@import "code";
 
 body {
   font-family: Arial, Helvetica, sans-serif;
@@ -119,6 +120,9 @@ article {
       color: palevioletred;
       margin-top: 20px;
     }
+    .comment {
+      margin-top: 20px;
+    }
   }
 
   .search {
@@ -127,5 +131,4 @@ article {
       background-color: $colSelected;
     }
   }
-
 }

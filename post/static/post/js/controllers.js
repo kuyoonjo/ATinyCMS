@@ -3,9 +3,12 @@
  */
 
 app.controller('myCtrl', function($scope, $location, $window, navigators) {
+    $scope.$on('$routeChangeStart', function() {
+        window.scrollTo(0, 0);
+    });
 });
 
-app.controller('myArticleCtrl', function($scope, $rootScope, $routeParams, navigators, json) {
+app.controller('myArticleCtrl', function($scope, $rootScope, $routeParams, $sce, navigators, json) {
     navigators.selectByURI($routeParams.uri);
     $rootScope.inSearch = false;
     json.load($scope.settings.articleUri + $routeParams.uri)
@@ -23,12 +26,14 @@ app.controller('myArticleCtrl', function($scope, $rootScope, $routeParams, navig
             $scope.data = $rootScope.notFound;
             $rootScope.title = $scope.data[0].title + ' - ' + $rootScope.settings.title;
         });
+    $scope.trustAsHtml = function(html) {
+        return $sce.trustAsHtml(html);
+    }
 });
 
 app.controller('mySearchCtrl', function($scope, $rootScope, $routeParams, navigators, json){
     navigators.select(null);
     $rootScope.inSearch = true;
-    //$rootScope.showFooter = false;
     json.load($scope.settings.searchEngineUri + '?q='+ $routeParams.q)
         .then(function(data){
             $scope.data = data;

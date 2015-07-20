@@ -1,35 +1,36 @@
-
 <div class="container-fluid">
-<div class="navbar-header"><a class="navbar-brand" href="#"><span class="glyphicon glyphicon-home"></span></a></div>
-<div>
+    <div class="navbar-header"><a class="navbar-brand" href="#"><span class="glyphicon glyphicon-home"></span></a></div>
+    <div>
+        <ul class="nav navbar-nav">
+            <NG ng-repeat-start="navigator in navigators"></NG>
 
-<ul class="nav navbar-nav">
-<NG ng-repeat-start="navigator in navigators"></NG>
+            <li ng-class="{active: isSelected(navigator)}" ng-if="navigator.type=='TN'">
+                <a ng-href="{{ root + navigator.category.uri }}">{{ navigator.category.name }}</a>
+            </li>
+            <li ng-if="navigator.type=='TU'">
+                <a ng-href="{{ navigator.url }}">{{ navigator.name }}</a>
+            </li>
 
-<li ng-class="{active: isSelected(navigator)}" ng-if="navigator.type=='TN'">
-<a ng-href="{{ root + navigator.category.uri }}">{{ navigator.category.name }}</a>
-</li>
+            <li ng-class="{active: isSelected(navigator)}" class="dropdown mega-menu-fw" ng-if="navigator.type=='TL'">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">{{ navigator.category.name }} <span class="caret"></span></a>
+                <ul class="dropdown-menu"><li>
+                    <div class="mega-menu-content">
+                        <div class="row">
+                            <div class="col-sm-3" ng-repeat="subcategory in navigator.category.children">
+                            <div class="category"><a ng-href="{{ root + subcategory.uri }}">{{ subcategory.name }}</a></div>
+                                <ul class="post"><li ng-repeat="post in subcategory.posts" ng-style="{'background-image':'url({{ images.nav.bullet }})'}">
+                                    <a  ng-href="{{ root + subcategory.uri + post.uri }}"> {{ post.title }}</a>
+                                </li></ul>
+                            </div>
+                        </div>
+                    </div>
+                </li></ul>
+            </li>
 
-<li ng-class="{active: isSelected(navigator)}" class="dropdown mega-menu-fw" ng-if="navigator.type=='TL'">
-<a class="dropdown-toggle" data-toggle="dropdown" href="#">{{ navigator.category.name }} <span class="caret"></span></a>
-<ul class="dropdown-menu"><li>
-<div class="mega-menu-content">
-<div class="row">
-<div class="col-sm-3" ng-repeat="subcategory in navigator.category.children">
-<div class="category"><a ng-href="{{ root + subcategory.uri }}">{{ subcategory.name }}</a></div>
-<ul class="post"><li ng-repeat="post in subcategory.posts" ng-style="{'background-image':'url({{ images.nav.bullet }})'}">
-<a  ng-href="{{ root + subcategory.uri + post.uri }}"> {{ post.title }}</a>
-</li></ul>
-</div>
-</div>
-</div>
-</li></ul>
-</li>
+            <NG ng-repeat-end></NG>
+        </ul>
 
-<NG ng-repeat-end></NG>
-</ul>
-
-<ul class="nav navbar-nav navbar-right">
+        <ul class="nav navbar-nav navbar-right">
 <li ng-class="{active: inSearch}" class="dropdown mega-menu-fw">
 <a id="submit" class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-search"></span> Search</a>
 <ul class="dropdown-menu transparent">
@@ -49,5 +50,5 @@
 </li>
 </ul>
 
-</div>
+    </div>
 </div>

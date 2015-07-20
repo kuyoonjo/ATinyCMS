@@ -67,8 +67,9 @@ class Post(models.Model):
     content = RichTextField()
     pub_date = models.DateTimeField(auto_now_add=True, verbose_name='Date Published')
     mod_date = models.DateTimeField(auto_now=True, verbose_name='Date Modified')
-    show_date = models.BooleanField(default=False)
-    show_author = models.BooleanField(default=False)
+    show_date = models.BooleanField(default=True)
+    show_author = models.BooleanField(default=True)
+    show_comment = models.BooleanField(default=True)
 
     def __str__(self):
         return self.title
@@ -86,11 +87,12 @@ class Post(models.Model):
             'title': self.title,
             'content': self.content,
             'uri': self.abs_uri,
-            'category': self.category.pk,
+            'category': self.category.name,
             'pub_date': self.pub_date.strftime('%d %b %Y %I:%M %p'),
             'mod_date': self.mod_date.strftime('%d %b %Y %I:%M %p'),
             'show_date': self.show_date,
-            'show_author': self.show_author
+            'show_author': self.show_author,
+            'show_comment': self.show_comment
         }
 
 class Navigator(models.Model):
@@ -99,17 +101,20 @@ class Navigator(models.Model):
     ACCORDION = 'TA'
     MEDIA = 'TM'
     THUMBNAILS = 'TT'
+    URL = 'TU'
     CHOICES = (
         (NORMAL, 'Normal'),
         (LIST, 'List'),
         (ACCORDION, 'Accordion'),
         (MEDIA, 'Media'),
         (THUMBNAILS, 'Thumbnails'),
+        (URL, 'URL'),
     )
 
     name = models.CharField(max_length=256, unique=True)
-    category = TreeForeignKey(Category)
+    category = TreeForeignKey(Category, null=True, blank=True)
     type = models.CharField(max_length=2, choices=CHOICES, default=NORMAL)
+    url = models.URLField(blank=True)
     priority = models.PositiveSmallIntegerField()
 
     def __str__(self):
@@ -117,6 +122,8 @@ class Navigator(models.Model):
 
     @classmethod
     def __extract_category_node_to_dict(cls, node, uri_prefix=''):
+        if not node:
+            return None
         result = {
             'uri': uri_prefix + node.uri + '/',
             'name': node.name,
@@ -129,7 +136,7 @@ class Navigator(models.Model):
 
     @classmethod
     def dict(cls):
-        return [{'type': n.type, 'category': cls.__extract_category_node_to_dict(n.category)} for n in cls.objects.all()]
+        return [{'name': n.name, 'type': n.type, 'url': n.url, 'category': cls.__extract_category_node_to_dict(n.category)} for n in cls.objects.all()]
 
 class Setting(models.Model):
     site = models.OneToOneField(Site)
