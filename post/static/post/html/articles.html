@@ -1,7 +1,7 @@
 <article ng-repeat="d in data" ngc-done="'HighlightCode'">
     <div class="wrap">
         <div class="title">
-            <a ng href="{{ d.uri }}">{{ d.title }}</a>
+            <a ng href="{{ root + d.uri }}">{{ d.title }}</a>
         </div>
         <div class="content">
             <div ng-bind-html="trustAsHtml(d.content)"></div>

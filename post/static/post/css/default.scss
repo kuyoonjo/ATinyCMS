@@ -3,8 +3,10 @@
 @import "megamenu";
 @import "animations";
 @import "code";
+@import "calendar";
 
 body {
+  overflow-y:scroll;
   font-family: Arial, Helvetica, sans-serif;
   margin: 0;
   padding: 0;
@@ -78,9 +80,13 @@ footer {
   font-size: small;
 }
 
+.box {
+  margin: 25px 25px 25px 25px;
+  padding: 25px 25px 25px 25px;
+}
 
 article {
-  margin: 30px 30px 10px;
+  margin-bottom: 10px;
   .wrap {
     padding: 20px 40px;
     position: relative;
@@ -131,4 +137,7 @@ article {
       background-color: $colSelected;
     }
   }
+}
+
+aside {
 }

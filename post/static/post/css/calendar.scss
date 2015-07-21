@@ -1,0 +1,79 @@
+calendar {
+  float: left;
+  display: block;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  border: solid 1px hotpink;
+  .header {
+    float: left;
+    width: 100%;
+    background: hotpink;
+    height: 40px;
+    color: white;
+    .align {
+      margin-left: 15px;
+      margin-right: 15px;
+      margin-top: 10px;
+
+      font-weight:bold;
+      text-transform:uppercase;
+      .left {
+        float: left;
+        width:10%;
+        text-align:left;
+      }
+      .center {
+        float: left;
+        width:80%;
+        text-align:center;
+      }
+      .right {
+        float: left;
+        width: 10%;
+        text-align: right;
+      }
+    }
+  }
+  .week {
+    float: left;
+    width: 100%;
+    border-top: solid 1px hotpink;
+    &:first-child {
+      border-top: none;
+    }
+
+    .day {
+      float: left;
+      width: 14.28571429%;
+      box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      border-left: solid 1px hotpink;
+      font-size: 0.75em;
+      text-align: center;
+      height: 30px;
+      line-height: 30px !important;
+      display: inline-block;
+      vertical-align: middle;
+      background: white;
+      cursor: pointer;
+      color: black;
+      &:first-child {
+        border-left: none;
+      }
+      &.today {
+        background: lightpink;
+      }
+      &.different-month {
+        color: #C0C0C0;
+      }
+      &.selected {
+        background: deeppink;
+        color: white;
+      }
+    }
+    &.names > span{
+      color: deepskyblue;
+      font-weight: bold;
+    }
+  }
+}

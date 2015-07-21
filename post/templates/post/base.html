@@ -7,8 +7,6 @@
     <meta charset="UTF-8">
     <title ng-bind="title">Loading...</title>
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/highlight.min.js"></script>
     <script src="{% static 'post/js/functions.js' %}"></script>
     <script>
@@ -24,11 +22,16 @@
 <body yc-body>
     <img ng-src="{% verbatim %}{{ settings.bgImage }}{% endverbatim %}" class="bg" />
     <img ng-src="{% verbatim %}{{ settings.headImage }}{% endverbatim %}" class="head" />
-    <header><h1 class="site_name">{% verbatim %}{{ settings.header }}{% endverbatim %}</h1></header>
+    <header><h1 class="site_name" ng-bind="settings.header"></h1></header>
     <nav yc-navbar in-search="inSearch" class="navbar navbar-default mega-menu"></nav>
-    <div class="container-fluid">
+    <div class="container-fluid box">
         <div class="row view-container">
-            <div ng-view yc-article-animate class="col-sm-12"></div>
+            <div class="col-sm-8">
+                <div ng-view></div>
+            </div>
+            <div class="col-sm-4">
+                <aside><calendar template-url="{% static 'post/html/calendar.html' %}" selected="day"></calendar></aside>
+            </div>
         </div>
     </div>
     <footer ng-style="footer.style" ng-show="showFooter">{% verbatim %}{{ settings.footer }}{% endverbatim %}</footer>
@@ -36,7 +39,9 @@
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular-route.min.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular-animate.min.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular-sanitize.min.js"></script>
-    <script src="{% static 'post/js/angular-modal-service.js' %}"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.13.0/ui-bootstrap-tpls.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.3/moment.min.js"></script>
+    <script src="{% static 'post/js/angular-yc-calendar.js' %}"></script>
     <script src="{% static 'post/js/angular-easyfb.js' %}"></script>
     <script src="{% static 'post/js/app.js' %}"></script>
     <script src="{% static 'post/js/factories.js' %}"></script>

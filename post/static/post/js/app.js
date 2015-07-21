@@ -3,7 +3,7 @@
  */
 
 
-var app = angular.module('myApp', ['ngRoute', 'ngAnimate', 'ngSanitize', 'ezfb']);
+var app = angular.module('myApp', ['ngRoute', 'ngAnimate', 'ngSanitize','ui.bootstrap', 'ezfb', 'yc.calendar']);
 
 app.config(function($httpProvider, $routeProvider, $locationProvider, ezfbProvider) {
     $routeProvider

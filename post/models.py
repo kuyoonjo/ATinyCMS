@@ -46,6 +46,12 @@ class Category(MPTTModel):
         return Post.objects.filter(category=self)
 
     @property
+    def list_posts(self):
+        return [{
+
+        }]
+
+    @property
     def as_root(self):
         return self.get_descendants(include_self=True)
 

@@ -5,6 +5,10 @@
 app.controller('myCtrl', function($scope, $location, $window, navigators) {
     $scope.$on('$routeChangeStart', function() {
         window.scrollTo(0, 0);
+        $scope.showFooter = false;
+    });
+    $scope.$on('$routeChangeSuccess', function () {
+        $scope.showFooter = true;
     });
 });
 
@@ -17,6 +21,7 @@ app.controller('myArticleCtrl', function($scope, $rootScope, $routeParams, $sce,
             $scope.author = $rootScope.settings.author;
             $scope.email = $rootScope.settings.email;
             $scope.site = $rootScope.settings.site;
+            $scope.root = $rootScope.settings.postUri;
             if(data.length > 1) {
                 $rootScope.title = data[0].category + ' - ' + $rootScope.settings.title;
             } else {

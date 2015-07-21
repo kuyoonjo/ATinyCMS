@@ -1,6 +1,37 @@
 <div class="container-fluid">
-    <div class="navbar-header"><a class="navbar-brand" href="#"><span class="glyphicon glyphicon-home"></span></a></div>
-    <div>
+    <div class="navbar-header pull-left">
+        <button type="button" class="navbar-toggle" ng-click="navbarCollapsed = !navbarCollapsed">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href><span class="glyphicon glyphicon-home"></span></a>
+    </div>
+
+    <div class="navbar-header pull-right">
+        <ul class="nav navbar-nav pull-right">
+            <li ng-class="{active: inSearch}" class="dropdown mega-menu-fw" dropdown auto-close="disabled">
+                <a id="submit" class="dropdown-toggle" href dropdown-toggle><span class="glyphicon glyphicon-search"></span> Search</a>
+                <ul class="dropdown-menu transparent">
+                    <li>
+                        <div class="mega-menu-search">
+                            <div class="row">
+                                <div class="input-group col-sm-12 search-box">
+                                    <input type="text" class="form-control" id="msg" ng-model="searchKeywords" ng-enter="loadSearchResults(searchKeywords)"/>
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-primary" ng-click="loadSearchResults(searchKeywords)"><span class="glyphicon glyphicon-search"></span></button>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+
+    <div class="collapse navbar-collapse" collapse="navbarCollapsed">
         <ul class="nav navbar-nav">
             <NG ng-repeat-start="navigator in navigators"></NG>
 
@@ -11,8 +42,8 @@
                 <a ng-href="{{ navigator.url }}">{{ navigator.name }}</a>
             </li>
 
-            <li ng-class="{active: isSelected(navigator)}" class="dropdown mega-menu-fw" ng-if="navigator.type=='TL'">
-                <a class="dropdown-toggle" data-toggle="dropdown" href="#">{{ navigator.category.name }} <span class="caret"></span></a>
+            <li ng-class="{active: isSelected(navigator)}" class="dropdown mega-menu-fw" ng-if="navigator.type=='TL'" dropdown>
+                <a class="dropdown-toggle" data-toggle="dropdown" href dropdown-toggle>{{ navigator.category.name }} <span class="caret"></span></a>
                 <ul class="dropdown-menu"><li>
                     <div class="mega-menu-content">
                         <div class="row">
@@ -29,26 +60,5 @@
 
             <NG ng-repeat-end></NG>
         </ul>
-
-        <ul class="nav navbar-nav navbar-right">
-<li ng-class="{active: inSearch}" class="dropdown mega-menu-fw">
-<a id="submit" class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-search"></span> Search</a>
-<ul class="dropdown-menu transparent">
-<li>
-<div class="mega-menu-search">
-<div class="row">
-<div class="input-group col-sm-12 search-box">
-<input type="text" class="form-control" id="msg" ng-model="searchKeywords" ng-enter="triggerClick($event, '#submit', searchKeywords)"/>
-<span class="input-group-btn">
-<button type="button" class="btn btn-primary" ng-click="loadSearchResults(searchKeywords)"><span class="glyphicon glyphicon-search"></span></button>
-</span>
-</div>
-</div>
-</div>
-</li>
-</ul>
-</li>
-</ul>
-
     </div>
 </div>

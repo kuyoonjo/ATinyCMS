@@ -20,12 +20,10 @@ app.directive('ycBody', function ($window) {
     return {
         restrict: 'A',
         link: function (scope, element) {
-            var window = angular.element($window);
-
             scope.heights = function() {
                 return {
-                    window: window.height(),
-                    body: element.outerHeight()
+                    window: $window.innerHeight,
+                    body: element[0].offsetHeight
                 };
             };
 
@@ -46,7 +44,7 @@ app.directive('ycBody', function ($window) {
                 setFooter();
             }, true);
 
-            window.bind('resize', function(){
+            angular.element($window).bind('resize', function(){
                 scope.$apply();
             });
         }
@@ -61,11 +59,12 @@ app.directive('ycNavbar', function($rootScope, $location, navigators){
         },
         templateUrl: parse('%spost/html/navbar.html', $rootScope.settings.staticUri),
         link: function(scope, element) {
-            element.affix({
+            /*element.affix({
                 offset: {
                     top: element.offset().top
                 }
-            });
+            });*/
+            scope.navbarCollapsed = true;
             scope.navigators = $rootScope.navigators;
             scope.root = $rootScope.settings.postUri;
             scope.images = $rootScope.images;
@@ -76,10 +75,6 @@ app.directive('ycNavbar', function($rootScope, $location, navigators){
             scope.loadSearchResults = function(keywords) {
                 $location.path($rootScope.settings.searchUri).search('q', keywords);
             };
-            scope.triggerClick = function($event, selector, keywords) {
-                $(selector).trigger('click');
-                scope.loadSearchResults(keywords);
-            };
         }
     };
 });
@@ -87,7 +82,7 @@ app.directive('ycNavbar', function($rootScope, $location, navigators){
 app.directive('ycArticleAnimate', function($animate, $rootScope){
     return function(scope, element) {
         $rootScope.showFooter = false;
-        $animate.addClass(element, ' view-frame').then(function(element){
+        $animate.addClass(element, 'view-frame').then(function(element){
             $rootScope.showFooter = true;
         });
     };

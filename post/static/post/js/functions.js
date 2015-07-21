@@ -12,7 +12,8 @@ function parse(str) {
 }
 
 function HighlightCode() {
-    $('pre code').each(function(i, block) {
-        hljs.highlightBlock(block);
-    });
+    var elements = document.querySelectorAll('pre > code');
+    for(i=0; i<elements.length; i++) {
+        hljs.highlightBlock(elements[i]);
+    }
 }
