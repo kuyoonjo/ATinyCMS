@@ -1,0 +1,9 @@
+<div class="list-group">
+    <b class="list-group-item header">TAGS</b>
+    <a class="list-group-item" ng-if="tag.name != ''"
+       ng-repeat="tag in tags" ng-href="{{ viewUrl + tag.name }}"
+       ng-class="{active: isSelected(tag.name)}">
+        <span class="badge">{{ tag.count }}</span>
+        {{ tag.name }}
+    </a>
+</div>

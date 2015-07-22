@@ -1,9 +1,9 @@
 @import "mixins";
 @import "navstyle";
 @import "megamenu";
-@import "animations";
 @import "code";
 @import "calendar";
+@import "tags_index";
 
 body {
   overflow-y:scroll;
@@ -137,7 +137,16 @@ article {
       background-color: $colSelected;
     }
   }
+  
+  .inform {
+    position: relative;
+    color: deepskyblue;
+    text-align: center;
+    font-size: medium;
+    z-index: 1;
+  }
 }
 
 aside {
+  position: relative;
 }

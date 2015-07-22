@@ -3,11 +3,11 @@ calendar {
   display: block;
   box-sizing: border-box;
   -moz-box-sizing: border-box;
-  border: solid 1px hotpink;
+  border: hidden;
   .header {
     float: left;
     width: 100%;
-    background: hotpink;
+    background: $asideHeaderBG;
     height: 40px;
     color: white;
     .align {
@@ -37,7 +37,7 @@ calendar {
   .week {
     float: left;
     width: 100%;
-    border-top: solid 1px hotpink;
+    border-top: solid 1px pink;
     &:first-child {
       border-top: none;
     }
@@ -47,27 +47,30 @@ calendar {
       width: 14.28571429%;
       box-sizing: border-box;
       -moz-box-sizing: border-box;
-      border-left: solid 1px hotpink;
+      border-left: solid 1px pink;
       font-size: 0.75em;
       text-align: center;
       height: 30px;
       line-height: 30px !important;
       display: inline-block;
       vertical-align: middle;
-      background: white;
+      background: $asideBoxBG;
       cursor: pointer;
       color: black;
       &:first-child {
         border-left: none;
       }
-      &.today {
-        background: lightpink;
-      }
       &.different-month {
         color: #C0C0C0;
       }
+      &.has-posts {
+        background: greenyellow;
+      }
+      &.today {
+        background: lightpink;
+      }
       &.selected {
-        background: deeppink;
+        background: $asideHighlightBG;
         color: white;
       }
     }

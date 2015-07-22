@@ -1,8 +1,11 @@
-$bgDefault      : hotpink;
-$bgHighlight    : deeppink;
-$colDefault     : whitesmoke;
-$colHighlight   : white;
-$colSelected    : pink;
+$bgDefault          : hotpink;
+$bgHighlight        : deeppink;
+$colDefault         : whitesmoke;
+$colHighlight       : white;
+$colSelected        : pink;
+$asideHeaderBG      : rgba(255,116,142,0.4);
+$asideBoxBG         : rgba(255,255,255,.8);
+$asideHighlightBG   : rgba(255, 76, 193, .4);
 
 @mixin crossBrowser($property, $css) {
   -webkit-#{$property} : $css;

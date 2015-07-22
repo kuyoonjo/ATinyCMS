@@ -3,32 +3,38 @@
  */
 
 angular.module('yc.calendar', [])
-    .directive("calendar", function() {
+    .directive("calendar", function($http, $q) {
         return {
             restrict: "E",
             scope: {
-                selected: "=",
-                template: "="
+                bind: '=',
+                ctrl: '@'
             },
             templateUrl: function(tElement, tAttrs) {
                 return tAttrs.templateUrl;
             },
 
-            controller: function($scope) {
-                $scope.day = moment();
-            },
-            link: function(scope) {
-                scope.selected = _removeTime(scope.selected || moment());
-                scope.month = scope.selected.clone();
 
-                var start = scope.selected.clone();
+            link: function(scope, element, attrs) {
+                if(attrs.posts) {
+                    _loadJson(attrs.posts)
+                        .then(function(data){
+                            scope.posts = data;
+                        }, function(data){
+                            console.log('can not load' + attrs.posts);
+                        });
+                }
+                scope.dateCtrl = attrs.dateCtrl;
+
+                scope.month = _removeTime(moment());
+                var start = scope.month.clone();
                 start.date(1);
                 _removeTime(start.day(0));
 
                 _buildMonth(scope, start, scope.month);
 
                 scope.select = function(day) {
-                    scope.selected = day.date;
+                    scope.bind.goto(day.date);
                 };
 
                 scope.next = function() {
@@ -44,6 +50,44 @@ angular.module('yc.calendar', [])
                     scope.month.month(scope.month.month()-1);
                     _buildMonth(scope, previous, scope.month);
                 };
+
+                scope.hasPosts = function(day) {
+                    if(scope.posts){
+                        for(i=0; i<scope.posts.length; i++) {
+                            if(scope.posts[i].list[day.date.format('YYYY-MM-DD')] != undefined){
+                                return true;
+                            }
+                        }
+                    }
+                    return false;
+                }
+
+                scope.tips = function(day) {
+                    if(scope.hasPosts(day)) {
+                        var strs = [];
+                        for(i=0; i<scope.posts.length; i++) {
+                            var c = scope.posts[i].list[day.date.format('YYYY-MM-DD')];
+                            if(c != undefined) {
+                                strs.push(scope.posts[i].prefix + c + scope.posts[i].affix);
+                            }
+                        }
+                        return strs.join(", ");
+                    }
+                    return null;
+                }
+            },
+            controller: function($scope) {
+                $scope.$on('$routeChangeSuccess', function (event, current, previous) {
+                    if(current.$$route.controller == $scope.ctrl) {
+                        var regex = /^(\d{4})-(\d{2})-(\d{2})$/g
+                        var match = regex.exec(current.params.date);
+                        if(match) {
+                            $scope.selected = moment(match[0]);
+                        } else {
+                            $scope.selected = null;
+                        }
+                    }
+                });
             }
         };
         function _removeTime(date) {
@@ -73,5 +117,15 @@ angular.module('yc.calendar', [])
                 date.add(1, "d");
             }
             return days;
+        }
+
+        function _loadJson(url) {
+            var deferred = $q.defer();
+            $http.get(url).success(function(data){
+                deferred.resolve(data);
+            }).error(function(){
+                deferred.reject('Wrong URL');
+            });
+            return deferred.promise;
         }
 });

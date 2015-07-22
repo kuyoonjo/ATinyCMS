@@ -1,0 +1,65 @@
+yc-tags-index {
+  float: left;
+  display: block;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  width: 100%;
+  border: solid 1px rgba(255,255,255,0);
+  margin-top: 10px;
+
+
+  > div.list-group {
+    > .list-group-item {
+      border-radius: 0px;
+      border-left: hidden;
+      border-right: hidden;
+      border-bottom: hidden;
+      background: $asideBoxBG;
+      border-color: pink;
+      &.header {
+        background: $asideHeaderBG;
+        color: white;
+        font-weight:bold;
+        text-transform:uppercase;
+        text-align: center;
+        border-top: hidden;
+      }
+    }
+    > a.list-group-item {
+      .lightOn {
+        background: white;
+        color: hotpink;
+      }
+      .lightOff {
+        background: hotpink;
+        color: white;
+      }
+    }
+
+    > a.list-group-item {
+      > span.badge {
+        @extend .lightOff;
+      }
+      &:hover{
+        background: $asideHighlightBG;
+        color: white;
+        font-weight: bold;
+        > span.badge {
+          @extend .lightOn;
+        }
+      }
+    }
+    > a.list-group-item.active {
+      background: $asideHighlightBG;
+      > span.badge {
+        @extend .lightOn;
+      }
+      &:hover {
+        border-color: pink;
+        > span.badge {
+          font-weight: bold;
+        }
+      }
+    }
+  }
+}

@@ -51,40 +51,63 @@ app.directive('ycBody', function ($window) {
     };
 });
 
-app.directive('ycNavbar', function($rootScope, $location, navigators){
+app.directive('ycNavbar', function($window, $location, navigators){
+    // navigators="" template-url="" post-uri="" search-uri="" images="" articleCtrl="" searchCtrl=""
+    var orignOffsetTop;
+    function getCurrentOffsetTop(element) {
+        return element.offsetTop
+    }
     return {
         restrict: 'A',
         scope: {
-            inSearch: "=inSearch"
+            navigators: '=',
+            images: '=',
+            postUri: '@',
+            searchUri: '@',
+            articleCtrl: '@',
+            searchCtrl: '@'
         },
-        templateUrl: parse('%spost/html/navbar.html', $rootScope.settings.staticUri),
-        link: function(scope, element) {
-            /*element.affix({
-                offset: {
-                    top: element.offset().top
-                }
-            });*/
-            scope.navbarCollapsed = true;
-            scope.navigators = $rootScope.navigators;
-            scope.root = $rootScope.settings.postUri;
-            scope.images = $rootScope.images;
+        templateUrl: function(element, attrs) {
+            return attrs.templateUrl;
+        },
+        link: function(scope, element, attrs) {
+            orignOffsetTop = element[0].offsetTop;
+            scope.currentOffsetTop = function() {
+                return $window.pageYOffset;
+            };
             navigators.set(scope.navigators);
+            scope.navbarCollapsed = true;
             scope.isSelected = function(navigator) {
                 return navigators.isSelected(navigator);
             };
             scope.loadSearchResults = function(keywords) {
-                $location.path($rootScope.settings.searchUri).search('q', keywords);
+                $location.path(scope.searchUri).search('q', keywords);
             };
+            scope.$watch(scope.currentOffsetTop, function(newValue, oldValue){
+                if(newValue > orignOffsetTop) {
+                    angular.element(element).addClass('navbar-fixed-top');
+                } else {
+                    angular.element(element).removeClass('navbar-fixed-top');
+                }
+            });
+            angular.element($window).bind('scroll', function(){
+                scope.$apply();
+            });
+        },
+        controller: function($scope) {
+            $scope.$on('$routeChangeStart', function() {
+                navigators.select(null);
+                $scope.inSearch = false;
+            });
+            $scope.$on('$routeChangeSuccess', function (event, current, previous) {
+                if(current.$$route.controller == $scope.articleCtrl) {
+                    navigators.selectByURI(current.params.uri);
+                }
+                if(current.$$route.controller == $scope.searchCtrl) {
+                    $scope.inSearch = true;
+                }
+            });
         }
-    };
-});
-
-app.directive('ycArticleAnimate', function($animate, $rootScope){
-    return function(scope, element) {
-        $rootScope.showFooter = false;
-        $animate.addClass(element, 'view-frame').then(function(element){
-            $rootScope.showFooter = true;
-        });
     };
 });
 
@@ -105,4 +128,31 @@ app.directive('ngcDone', function ($timeout) {
             }
         });
     }
+});
+
+app.directive('ycTagsIndex', function(json){
+   return {
+       restrict: 'E',
+       scope: true,
+       link: function(scope, element, attrs) {
+           scope.viewUrl = attrs.viewUrl;
+           json.load(attrs.url)
+               .then(function(data){
+                   scope.tags = data;
+               }, function(data){
+                   console.log('can not load' + attrs.url);
+               });
+           scope.isSelected = function(selected) {
+               return selected == scope.selected;
+           }
+       },
+       templateUrl: function(element, attrs) {
+           return attrs.templateUrl;
+       },
+       controller: function($scope) {
+           $scope.$on('$routeChangeSuccess', function (event, current, previous) {
+               $scope.selected = current.params.tag;
+           });
+       }
+   }
 });

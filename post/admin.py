@@ -10,10 +10,10 @@ class PostAdmin(admin.ModelAdmin):
     readonly_fields = ('pub_date', 'mod_date')
     fieldsets = (
         (None, {
-            'fields': (('title','category','uri', 'show_comment'), 'content')
+            'fields': (('title', 'uri', 'show_comment'),('category', 'tags', 'show_date'), 'content')
         }),
         ('Date information', {
-            'fields': (('pub_date', 'mod_date', 'show_date', 'show_author'),),
+            'fields': (('pub_date', 'mod_date', 'show_author'),),
             'classes': ('collapse',)
         })
     )

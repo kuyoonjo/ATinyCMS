@@ -70,6 +70,7 @@ class Post(models.Model):
     uri = models.CharField(max_length=256, validators=[validate_uri], verbose_name='URI')
     category = TreeForeignKey(Category)
     title = models.CharField(max_length=256)
+    tags = models.CharField(max_length=256, blank=True)
     content = RichTextField()
     pub_date = models.DateTimeField(auto_now_add=True, verbose_name='Date Published')
     mod_date = models.DateTimeField(auto_now=True, verbose_name='Date Modified')
@@ -82,6 +83,7 @@ class Post(models.Model):
 
     class Meta:
         unique_together = (('uri', 'category'),)
+        ordering = ('-mod_date', '-pub_date')
 
     @property
     def abs_uri(self):
@@ -91,6 +93,7 @@ class Post(models.Model):
         return {
             'id': self.pk,
             'title': self.title,
+            'tags': self.tags.split(','),
             'content': self.content,
             'uri': self.abs_uri,
             'category': self.category.name,

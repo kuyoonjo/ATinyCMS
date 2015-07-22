@@ -17,9 +17,11 @@ app.factory('navigators', function() {
     factory.selectByURI = function(uri) {
         var category_uri = uri.split('/')[0];
         for(i=0; i<navigators.length; i++) {
-            if(navigators[i].category.uri.split('/')[0] == category_uri) {
-                factory.select(navigators[i]);
-                return;
+            if(navigators[i].category) {
+                if(navigators[i].category.uri.split('/')[0] == category_uri) {
+                    factory.select(navigators[i]);
+                    return;
+                }
             }
         }
     };

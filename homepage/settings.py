@@ -39,6 +39,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.sites',
 
+    'pytz',
     'compressor',
     'mptt',
     'django_mptt_admin',
@@ -146,5 +147,10 @@ HAYSTACK_CONNECTIONS = {
 URI_POST_PREFIX = r'post/'
 URI_ARTICLE_PREFIX = r'article/'
 URI_SEARCH_PREFIX = r'search/'
+URI_TAGS_INDEX_PREFIX = r'tags_index/'
+URI_TAG_PREFIX = r'tag/'
+URI_DATE_INDEX_PREFIX = r'date_index/'
+URI_DATE_PREFIX = r'date/'
+
 
 SITE_ID = 2

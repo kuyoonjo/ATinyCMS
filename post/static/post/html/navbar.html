@@ -11,9 +11,9 @@
 
     <div class="navbar-header pull-right">
         <ul class="nav navbar-nav pull-right">
-            <li ng-class="{active: inSearch}" class="dropdown mega-menu-fw" dropdown auto-close="disabled">
+            <li ng-class="{active: inSearch}" class="dropdown" dropdown auto-close="outsideClick">
                 <a id="submit" class="dropdown-toggle" href dropdown-toggle><span class="glyphicon glyphicon-search"></span> Search</a>
-                <ul class="dropdown-menu transparent">
+                <ul class="dropdown-menu transparent dropdown-menu-right">
                     <li>
                         <div class="mega-menu-search">
                             <div class="row">
@@ -36,7 +36,7 @@
             <NG ng-repeat-start="navigator in navigators"></NG>
 
             <li ng-class="{active: isSelected(navigator)}" ng-if="navigator.type=='TN'">
-                <a ng-href="{{ root + navigator.category.uri }}">{{ navigator.category.name }}</a>
+                <a ng-href="{{ postUri + navigator.category.uri }}">{{ navigator.category.name }}</a>
             </li>
             <li ng-if="navigator.type=='TU'">
                 <a ng-href="{{ navigator.url }}">{{ navigator.name }}</a>
@@ -48,9 +48,9 @@
                     <div class="mega-menu-content">
                         <div class="row">
                             <div class="col-sm-3" ng-repeat="subcategory in navigator.category.children">
-                            <div class="category"><a ng-href="{{ root + subcategory.uri }}">{{ subcategory.name }}</a></div>
+                            <div class="category"><a ng-href="{{ postUri + subcategory.uri }}">{{ subcategory.name }}</a></div>
                                 <ul class="post"><li ng-repeat="post in subcategory.posts" ng-style="{'background-image':'url({{ images.nav.bullet }})'}">
-                                    <a  ng-href="{{ root + subcategory.uri + post.uri }}"> {{ post.title }}</a>
+                                    <a  ng-href="{{ postUri + subcategory.uri + post.uri }}"> {{ post.title }}</a>
                                 </li></ul>
                             </div>
                         </div>

@@ -1,4 +1,30 @@
-<article ng-repeat="d in data" ngc-done="'HighlightCode'">
+
+<article ng-if="data.by=='tag'">
+    <div class="wrap">
+        <div class="inform">Show posts with tag <code>{{ tag }}</code></div>
+        <div class="bg">
+        </div>
+    </div>
+</article>
+
+
+<article ng-if="data.by=='date'">
+    <div class="wrap">
+        <div class="inform" ng-if="data.list.length>0">
+            Show <code>{{ data.list.length }}</code> posts modified at <code>{{ date }}</code>
+        </div>
+        <div class="inform" ng-if="data.list.length==0">No posts modified at <code>{{ date }}</code></div>
+        <div class="bg">
+        </div>
+    </div>
+</article>
+
+<article ng-if= "data.by=='article'
+                || data.by=='tag'
+                || data.by=='empty'
+                || data.by=='date'"
+         ng-repeat="d in data.list" ngc-done="'HighlightCode'">
+
     <div class="wrap">
         <div class="title">
             <a ng href="{{ root + d.uri }}">{{ d.title }}</a>
@@ -18,6 +44,25 @@
                      data-order-by="reverse_time"
                      data-colorscheme="light">
                 </div>
+            </div>
+        </div>
+        <div class="bg">
+        </div>
+    </div>
+</article>
+
+<article ng-if="data.by=='search'">
+    <div class="wrap">
+        <div class="title">
+            <h1>Search Results</h1>
+        </div>
+        <div class="search">
+            <div ng-repeat="d in data.list">
+                <h3><a ng-href="{{ settings.postUri + d.uri }}">{{ d.title }}</a></h3>
+                <p ng-bind-html="d.content"></p>
+            </div>
+            <div ng-if="data.length == 0">
+                <strong>No results found...</strong>
             </div>
         </div>
         <div class="bg">
