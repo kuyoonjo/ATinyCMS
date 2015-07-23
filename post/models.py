@@ -4,6 +4,8 @@ from django.contrib.sites.models import Site
 from django.core.exceptions import ValidationError
 from mptt.models import MPTTModel, TreeForeignKey
 from ckeditor.fields import RichTextField
+from imagekit.models import ProcessedImageField
+from imagekit.processors import ResizeToFill
 import re
 
 def validate_uri(value):
@@ -70,6 +72,11 @@ class Post(models.Model):
     uri = models.CharField(max_length=256, validators=[validate_uri], verbose_name='URI')
     category = TreeForeignKey(Category)
     title = models.CharField(max_length=256)
+    thumbnail = ProcessedImageField(upload_to='post/thumbnail',
+                                    processors=[ResizeToFill(128, 128)],
+                                    format='JPEG',
+                                    options={'quality': 60},
+                                    null=True, blank=True)
     tags = models.CharField(max_length=256, blank=True)
     content = RichTextField()
     pub_date = models.DateTimeField(auto_now_add=True, verbose_name='Date Published')
@@ -89,6 +96,21 @@ class Post(models.Model):
     def abs_uri(self):
         return self.category.abs_uri + self.uri
 
+    def dict_thumbnail(self):
+        if self.thumbnail:
+            thumbnail = self.thumbnail.url
+        else:
+            thumbnail = None
+        return {
+            'id': self.pk,
+            'title': self.title,
+            'thumbnail': thumbnail,
+            'content': self.__get_summary(255),
+            'uri': self.abs_uri,
+            'pub_date': self.pub_date.strftime('%d %b %Y %I:%M %p'),
+            'mod_date': self.mod_date.strftime('%d %b %Y %I:%M %p'),
+        }
+
     def dict(self):
         return {
             'id': self.pk,
@@ -103,6 +125,11 @@ class Post(models.Model):
             'show_author': self.show_author,
             'show_comment': self.show_comment
         }
+
+    def __get_summary(self, count, suffix=u'...', wrapper=u'p'):
+        summary = re.sub(r'<.*?>', u'', self.content)
+        summary = u' '.join(summary.split())[0:count]
+        return u'<{0}>{1}{2}</{0}>'.format(wrapper, summary, suffix)
 
 class Navigator(models.Model):
     NORMAL = 'TN'

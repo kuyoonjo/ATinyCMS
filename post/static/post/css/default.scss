@@ -21,6 +21,10 @@ body {
       color: $bgHighlight;
     }
   }
+
+  .datetime {
+    color: deepskyblue;
+  }
 }
 
 img.bg {
@@ -90,6 +94,9 @@ article {
   .wrap {
     padding: 20px 40px;
     position: relative;
+    &.list {
+      padding: 0px 0px;
+    }
   }
 
   .bg {
@@ -144,6 +151,29 @@ article {
     text-align: center;
     font-size: medium;
     z-index: 1;
+  }
+
+  .list {
+    .media-list{
+      z-index: 1;
+      position: relative;
+      .media {
+        .pull-right{
+          margin: 10px;
+        }
+      }
+      .media-body {
+        padding: 15px;
+        .media-heading {
+          font-size: x-large;
+        }
+        .media-root {
+          color: palevioletred;
+          margin-bottom: -10px;
+        }
+      }
+    }
+
   }
 }
 

@@ -64,8 +64,10 @@ app.directive('ycNavbar', function($window, $location, navigators){
             images: '=',
             postUri: '@',
             searchUri: '@',
+            listUri: '@',
             articleCtrl: '@',
-            searchCtrl: '@'
+            searchCtrl: '@',
+            listCtrl: '@'
         },
         templateUrl: function(element, attrs) {
             return attrs.templateUrl;
@@ -100,11 +102,16 @@ app.directive('ycNavbar', function($window, $location, navigators){
                 $scope.inSearch = false;
             });
             $scope.$on('$routeChangeSuccess', function (event, current, previous) {
-                if(current.$$route.controller == $scope.articleCtrl) {
-                    navigators.selectByURI(current.params.uri);
-                }
-                if(current.$$route.controller == $scope.searchCtrl) {
-                    $scope.inSearch = true;
+                switch(current.$$route.controller) {
+                    case $scope.articleCtrl:
+                        navigators.selectByURI(current.params.uri);
+                        break;
+                    case $scope.listCtrl:
+                        navigators.selectByURI(current.params.category);
+                        break;
+                    case $scope.searchCtrl:
+                        $scope.inSearch = true;
+                        break;
                 }
             });
         }

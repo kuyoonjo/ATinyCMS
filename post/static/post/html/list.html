@@ -1,0 +1,36 @@
+<article ng-if= "data.by=='list'"
+         ng-repeat="d in data.list">
+    <div ng-click="data.show(root + d.uri)"
+         ng-mouseover="data.style={'background-color': 'pink'}"
+         ng-mouseleave="data.style={}"
+         style="cursor: pointer;" class="wrap list">
+            <ul class="media-list">
+                <li class="media"><a ng-href="{{ root + d.uri }}" class="pull-right"><img ng-src="{{ data.getThumbnail(d) }}" alt="128x128" class="media-object"></a>
+                    <div class="media-body">
+                        <h4 class="media-heading"><a ng-href="{{ root + d.uri }}">{{ d.title }}</a></h4>
+                        <div ng-bind-html="trustAsHtml(d.content)"></div>
+                        <div class="media-root">
+                            Modified: <span class="datetime">{{ d.mod_date }}</span>,
+                            Post by <a ng-href="mailto:{{ email }}">{{ author }} </a> at
+                            <span class="datetime"> {{ d.pub_date }}</span class="datetime">
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        <div class="bg" ng-style="data.style">
+        </div>
+    </div>
+</article>
+
+<article ng-if= "data.by=='error'">
+    <div class="wrap">
+        <div class="title">
+            {{ data.error.title }}
+        </div>
+        <div class="content">
+            {{ data.error.content }}
+        </div>
+        <div class="bg">
+        </div>
+    </div>
+</article>

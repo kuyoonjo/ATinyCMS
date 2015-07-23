@@ -45,6 +45,7 @@ INSTALLED_APPS = (
     'django_mptt_admin',
     'ckeditor',
     'haystack',
+    'imagekit',
 
     'post',
 )
@@ -151,6 +152,7 @@ URI_TAGS_INDEX_PREFIX = r'tags_index/'
 URI_TAG_PREFIX = r'tag/'
 URI_DATE_INDEX_PREFIX = r'date_index/'
 URI_DATE_PREFIX = r'date/'
+URI_LIST_PREFIX = r'list/'
 
 
 SITE_ID = 2

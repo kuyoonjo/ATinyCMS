@@ -1,0 +1,31 @@
+<article ng-if="data.by=='search'">
+    <div class="wrap">
+        <div class="title">
+            <h1>Search Results</h1>
+        </div>
+        <div class="search">
+            <div ng-repeat="d in data.list">
+                <h3><a ng-href="{{ settings.postUri + d.uri }}">{{ d.title }}</a></h3>
+                <p ng-bind-html="d.content"></p>
+            </div>
+            <div ng-if="data.list.length == 0">
+                <strong>No results found...</strong>
+            </div>
+        </div>
+        <div class="bg">
+        </div>
+    </div>
+</article>
+
+<article ng-if= "data.by=='error'">
+    <div class="wrap">
+        <div class="title">
+            {{ data.error.title }}
+        </div>
+        <div class="content">
+            {{ data.error.content }}
+        </div>
+        <div class="bg">
+        </div>
+    </div>
+</article>

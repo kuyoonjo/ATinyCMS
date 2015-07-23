@@ -38,6 +38,9 @@
             <li ng-class="{active: isSelected(navigator)}" ng-if="navigator.type=='TN'">
                 <a ng-href="{{ postUri + navigator.category.uri }}">{{ navigator.category.name }}</a>
             </li>
+            <li ng-class="{active: isSelected(navigator)}" ng-if="navigator.type=='TM'">
+                <a ng-href="{{ postUri + 'by' + listUri + navigator.category.uri }}">{{ navigator.category.name }}</a>
+            </li>
             <li ng-if="navigator.type=='TU'">
                 <a ng-href="{{ navigator.url }}">{{ navigator.name }}</a>
             </li>

@@ -13,6 +13,7 @@
     <script>
         var image_logo_kitty_uri = "{% static 'post/images/logo_kitty.png' %}";
         var image_bullet_kitty_uri = "{% static 'post/images/bullet_kitty.gif' %}";
+        var image_thumbnail_kitty_uri = "{% static 'post/images/thumbnail_kitty.jpeg' %}";
         var config = {{ config|safe }};
     </script>
 </head>
@@ -26,9 +27,11 @@
          template-url="{% static 'post/html/navbar.html' %}"
          post-uri="{% verbatim %}{{ settings.postUri }}{% endverbatim %}"
          search-uri="{% verbatim %}{{ settings.searchUri }}{% endverbatim %}"
+         list-uri="{% verbatim %}{{ settings.listUri }}{% endverbatim %}"
          images="images"
          article-ctrl="articleCtrl"
-         search-ctrl="searchCtrl">
+         search-ctrl="searchCtrl"
+         list-ctrl="listCtrl">
     </nav>
     <div class="container-fluid box">
         <div class="row view-container">
@@ -45,7 +48,7 @@
                 <aside>
                     <yc-tags-index class="tags" url="{% verbatim %}{{ settings.tagsIndexUri }}{% endverbatim %}"
                                    template-url="{% static 'post/html/tags_index.html' %}"
-                                   view-url="{% verbatim %}{{ settings.postUri + settings.tagUri }}{% endverbatim %}">
+                                   view-url="{% verbatim %}{{ settings.postUri + 'by' + settings.tagUri }}{% endverbatim %}">
                     </yc-tags-index>
                 </aside>
             </div>

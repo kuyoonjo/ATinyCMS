@@ -13,9 +13,9 @@ app.controller('myCtrl', function($scope, $location, $window, $sce, json) {
 
     $scope.calendar =  {
         goto: function(date) {
-            $location.path($scope.settings.postUri + $scope.settings.dateUri + date.format('YYYY-MM-DD'));
+            $location.path($scope.settings.postUri + 'by' + $scope.settings.dateUri + date.format('YYYY-MM-DD'));
         }
-    }
+    };
 
     $scope.loadArticles = function (url, to, callback) {
         json.load(url)
@@ -26,8 +26,9 @@ app.controller('myCtrl', function($scope, $location, $window, $sce, json) {
                 to.root = $scope.settings.postUri;
                 to.data = callback($scope, data);
             }, function(data){
+                console.log(data);
                 to.data = $scope.notFound;
-                $scope.title = to.data[0].title + ' - ' + $scope.settings.title;
+                $scope.title = $scope.notFound.error.title + ' - ' + $scope.settings.title;
             });
         to.trustAsHtml = function(html) {
             return $sce.trustAsHtml(html);
@@ -37,8 +38,11 @@ app.controller('myCtrl', function($scope, $location, $window, $sce, json) {
 
 
 
-app.controller('articleCtrl', function($scope, $routeParams) {
+app.controller('articleCtrl', function($scope, $rootScope, $routeParams) {
     $scope.loadArticles($scope.settings.articleUri + $routeParams.uri, $scope, function(scope, data){
+        if(!data.success) {
+            return $rootScope.notFound;
+        }
         if(data.list.length > 1) {
             scope.title = data.list[0].category + ' - ' + scope.settings.title;
         } else if(data.list.length == 1) {
@@ -56,8 +60,11 @@ app.controller('articleCtrl', function($scope, $routeParams) {
     });
 });
 
-app.controller('tagCtrl', function($scope, $routeParams) {
+app.controller('tagCtrl', function($scope, $rootScope, $routeParams) {
     $scope.loadArticles($scope.settings.tagUri + $routeParams.tag, $scope, function(scope, data){
+        if(!data.success) {
+            return $rootScope.notFound;
+        }
         if(data.list.length > 0) {
             scope.title = $routeParams.tag + ' - ' + scope.settings.title;
             scope.tag = $routeParams.tag;
@@ -74,17 +81,46 @@ app.controller('tagCtrl', function($scope, $routeParams) {
     });
 });
 
+app.controller('listCtrl', function($scope, $routeParams, $location) {
+    var fail = {
+        by: 'error',
+        error: {
+            title: 'Error',
+            content: 'No posts found.'
+        }
+    }
+    $scope.loadArticles($scope.settings.listUri + $routeParams.category, $scope, function(scope, data){
+        if(data.success){
+            if(data.list.length > 0) {
+                scope.title = data.category + ' - ' + scope.settings.title;
+                data.getThumbnail = function(d) {
+                    return d.thumbnail ? d.thumbnail : scope.images.thumbnail;
+                };
+                data.show = function(url) {
+                    $location.path(url);
+                }
+                return data;
+            }
+        }
+        return fail;
+    });
+});
+
 app.controller('dateCtrl', function($scope, $rootScope, $routeParams) {
     var regex = /^(\d{4})-(\d{2})-(\d{2})$/g;
     var match = regex.exec($routeParams.date);
+    var fail = $rootScope.notFound;
     if(match) {
         $scope.loadArticles($scope.settings.dateUri + match[0], $scope, function(scope, data){
-            scope.title = match[0] + ' - ' + scope.settings.title;
-            scope.date = match[0];
-            return data;
+            if(data.success){
+                scope.title = match[0] + ' - ' + scope.settings.title;
+                scope.date = match[0];
+                return data;
+            }
+            return fail;
         });
     } else {
-        $scope.data = $rootScope.notFound;
+        $scope.data = fail;
     }
 });
 

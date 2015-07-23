@@ -12,5 +12,7 @@ urlpatterns = [
     url(r'^%s$' % settings.URI_DATE_INDEX_PREFIX, views.date_index, name='date_index'),
     url(r'^%s$' % settings.URI_DATE_PREFIX, views.date_view, name='date'),
     url(r'^%s(?P<year>\d{4})-(?P<month>\d{2})-(?P<day>\d{2})$' % settings.URI_DATE_PREFIX, views.date_view, name='date_view'),
+    url(r'^%s$' % settings.URI_LIST_PREFIX, views.list_view, name='list'),
+    url(r'^%s(?P<category_uri>[^\s\/]+)' % settings.URI_LIST_PREFIX, views.list_view, name='list_view'),
     url(r'^%s[\s\S]*$' % settings.URI_POST_PREFIX, views.post_view, name='post'),
 ]

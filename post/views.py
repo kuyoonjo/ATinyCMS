@@ -1,6 +1,6 @@
 from django.conf import settings
 from django.http import HttpResponse
-from django.shortcuts import render, get_object_or_404, get_list_or_404
+from django.shortcuts import render, get_object_or_404
 from django.core.urlresolvers import reverse
 from django.contrib.sites.models import Site
 from haystack.query import SearchQuerySet
@@ -20,6 +20,7 @@ def post_view(request):
         'tagUri': reverse('tag'),
         'dateIndexUri': reverse('date_index'),
         'dateUri': reverse('date'),
+        'listUri': reverse('list'),
         'staticUri': settings.STATIC_URL,
         'mediaUri': settings.MEDIA_URL
     })
@@ -40,6 +41,7 @@ def article_view(request, category_uri=None, post_uri=None):
         posts = Post.objects.filter(category=category)
 
     articles_dict = {
+        'success': True,
         'by': 'article',
         'list': [p.dict() for p in posts]
     }
@@ -50,6 +52,7 @@ def search_view(request):
     results = SearchQuerySet().filter(content=keyword)
     highlighter = Highlighter(keyword)
     results_dict = {
+        'success': True,
         'by': 'search',
         'list': [{
                 'title': r.object.title,
@@ -73,6 +76,7 @@ def tag_view(request, tag=''):
         if tag in tags:
             posts.append(post)
     articles_dict = {
+        'success': True,
         'by': 'tag',
         'list': [p.dict() for p in posts]
     }
@@ -92,10 +96,22 @@ def date_view(request, year, month, day):
     _day = int(day)
     mod = Post.objects.filter(show_date=True, mod_date__year=_year, mod_date__month=_month, mod_date__day=_day)
     articles_dict = {
+        'success': True,
         'by': 'date',
         'list': [p.dict() for p in mod]
     }
     return HttpResponse(json.dumps(articles_dict), content_type="application/json")
+
+def list_view(request, category_uri):
+    category = Category.objects.get(uri=category_uri)
+    posts = Post.objects.filter(category=category)
+    list_dict = {
+        'success': True,
+        'by': 'list',
+        'category': category.name,
+        'list': [p.dict_thumbnail() for p in posts]
+    }
+    return HttpResponse(json.dumps(list_dict), content_type="application/json")
 
 
 

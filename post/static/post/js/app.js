@@ -7,17 +7,23 @@ var app = angular.module('myApp', ['ngRoute', 'ngSanitize','ui.bootstrap', 'ezfb
 
 app.config(function($httpProvider, $routeProvider, $locationProvider, ezfbProvider) {
     var tplArticle = parse('%spost/html/articles.html', config.settings.staticUri);
+    var tplSearch = parse('%spost/html/search.html', config.settings.staticUri);
+    var tplList = parse('%spost/html/list.html', config.settings.staticUri);
     $routeProvider
-        .when(parse('%s%s:tag', config.settings.postUri, config.settings.tagUri), {
+        .when(parse('%sby%s:tag', config.settings.postUri, config.settings.tagUri), {
             templateUrl: tplArticle,
             controller: 'tagCtrl'
         })
-        .when(parse('%s%s:date', config.settings.postUri, config.settings.dateUri), {
+        .when(parse('%sby%s:date', config.settings.postUri, config.settings.dateUri), {
             templateUrl: tplArticle,
             controller: 'dateCtrl'
         })
+        .when(parse('%sby%s:category*', config.settings.postUri, config.settings.listUri), {
+            templateUrl: tplList,
+            controller: 'listCtrl'
+        })
         .when(config.settings.searchUri, {
-            templateUrl: tplArticle,
+            templateUrl: tplSearch,
             controller: 'searchCtrl'
         })
         .when(config.settings.postUri, {
@@ -47,14 +53,15 @@ app.run(function($rootScope) {
     $rootScope.images = {
         nav: {
             logo: image_logo_kitty_uri,
-            bullet: image_bullet_kitty_uri
-        }
+            bullet: image_bullet_kitty_uri,
+        },
+        thumbnail: image_thumbnail_kitty_uri
     };
     $rootScope.notFound = {
         by: 'error',
-        list: [{
+        error: {
             title: 'Error',
             content: '404 Not Found Error.'
-        }]
+        }
     };
 });
