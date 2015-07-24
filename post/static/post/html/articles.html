@@ -30,7 +30,7 @@
             <a ng href="{{ root + d.uri }}">{{ d.title }}</a>
         </div>
         <div class="content">
-            <div ng-bind-html="trustAsHtml(d.content)"></div>
+            <div ng-bind-html="trustAsHtml(d.content)" compile-template></div>
             <div class="footer" ng-if="d.show_date">
                 Modified: <span class="datetime">{{ d.mod_date }}</span>,
                 Post <span ng-if="d.show_author">by

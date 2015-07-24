@@ -2,7 +2,7 @@
  * Created by yuchen on 7/16/15.
  */
 
-app.controller('myCtrl', function($scope, $location, $window, $sce, json) {
+app.controller('myCtrl', function($scope, $location, $window, $sce, $modal, json) {
     $scope.$on('$routeChangeStart', function() {
         window.scrollTo(0, 0);
         $scope.showFooter = false;
@@ -16,6 +16,15 @@ app.controller('myCtrl', function($scope, $location, $window, $sce, json) {
             $location.path($scope.settings.postUri + 'by' + $scope.settings.dateUri + date.format('YYYY-MM-DD'));
         }
     };
+
+    $scope.openModal = function(url, size, animationDisabled) {
+        console.log('openning');
+        $modal.open({
+            animation: !animationDisabled,
+            templateUrl: url,
+            size: size
+        });
+    }
 
     $scope.loadArticles = function (url, to, callback) {
         json.load(url)
@@ -133,14 +142,4 @@ app.controller('searchCtrl', function($scope, $rootScope, $routeParams, json){
         }, function(data){
             $scope.data = $rootScope.notFound;
         });
-});
-
-app.controller('modalCtrl', function ($scope, $modal) {
-    $scope.openModal = function(url, size, animationDisabled) {
-        $modal.open({
-            animation: !animationDisabled,
-            templateUrl: url,
-            size: size
-        });
-    }
 });
