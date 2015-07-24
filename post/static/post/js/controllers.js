@@ -134,3 +134,13 @@ app.controller('searchCtrl', function($scope, $rootScope, $routeParams, json){
             $scope.data = $rootScope.notFound;
         });
 });
+
+app.controller('modalCtrl', function ($scope, $modal) {
+    $scope.openModal = function(url, size, animationDisabled) {
+        $modal.open({
+            animation: !animationDisabled,
+            templateUrl: url,
+            size: size
+        });
+    }
+});
