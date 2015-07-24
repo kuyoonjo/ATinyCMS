@@ -1,8 +1,8 @@
 <article ng-if= "data.by=='list'"
          ng-repeat="d in data.list">
     <div ng-click="data.show(root + d.uri)"
-         ng-mouseover="data.style={'background-color': 'pink'}"
-         ng-mouseleave="data.style={}"
+         ng-mouseover="d.style={'background-color': 'pink'}"
+         ng-mouseleave="d.style={}"
          style="cursor: pointer;" class="wrap list">
             <ul class="media-list">
                 <li class="media"><a ng-href="{{ root + d.uri }}" class="pull-right"><img ng-src="{{ data.getThumbnail(d) }}" alt="128x128" class="media-object"></a>
@@ -17,7 +17,7 @@
                     </div>
                 </li>
             </ul>
-        <div class="bg" ng-style="data.style">
+        <div class="bg" ng-style="d.style">
         </div>
     </div>
 </article>
