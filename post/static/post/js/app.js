@@ -40,7 +40,8 @@ app.config(function($httpProvider, $routeProvider, $locationProvider, ezfbProvid
     });
 
     ezfbProvider.setInitParams({
-        appId: '375005332696718'
+        appId: '375005332696718',
+        version: 'v2.4'
     });
 });
 
