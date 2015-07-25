@@ -1,8 +1,17 @@
 from django.conf import settings
-from django.conf.urls import url, include
-from post import views
+from django.conf.urls import url
+from django.contrib.sitemaps.views import sitemap
+from django.contrib.sitemaps import GenericSitemap
+from post import views, models
+
+info_dict = {
+    'queryset': models.Post.objects.all(),
+    'date_field': 'mod_date',
+}
+sitemaps = {'blog': GenericSitemap(info_dict, priority=0.6)}
 
 urlpatterns = [
+    url(r'^%ssitemap\.xml$' % settings.URI_POST_PREFIX, sitemap, {'sitemaps': sitemaps}),
     url(r'^%s$' % settings.URI_ARTICLE_PREFIX, views.article_view, name='article'),
     url(r'^%s(?P<category_uri>(([^\s\/]+)\/)+)(?P<post_uri>[^\s\/]*)$' % settings.URI_ARTICLE_PREFIX, views.article_view, name='article_view'),
     url(r'^%s$' % settings.URI_SEARCH_PREFIX, views.search_view, name='search'),

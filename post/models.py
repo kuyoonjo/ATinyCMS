@@ -2,6 +2,7 @@ from django.db import models
 from django.shortcuts import get_object_or_404
 from django.contrib.sites.models import Site
 from django.core.exceptions import ValidationError
+from django.core.urlresolvers import reverse
 from mptt.models import MPTTModel, TreeForeignKey
 from ckeditor.fields import RichTextField
 from imagekit.models import ProcessedImageField
@@ -91,6 +92,9 @@ class Post(models.Model):
     class Meta:
         unique_together = (('uri', 'category'),)
         ordering = ('-mod_date', '-pub_date')
+
+    def get_absolute_url(self):
+        return reverse('post') + self.abs_uri
 
     @property
     def abs_uri(self):
@@ -184,6 +188,7 @@ class Setting(models.Model):
     bgImage = models.ImageField(upload_to='images')
     headImage = models.ImageField(upload_to='images')
     home = models.CharField(max_length=256)
+    commentUri = models.CharField(max_length=256, verbose_name='Comment URI')
 
     def dict(self):
         return {
@@ -195,7 +200,8 @@ class Setting(models.Model):
             'bgImage': self.bgImage.url,
             'headImage': self.headImage.url,
             'home': self.home,
-            'site': self.site.domain
+            'site': self.site.domain,
+            'commentUri': self.commentUri
         }
 
     def delete(self, *args, **kwargs):

@@ -31,7 +31,7 @@ app.controller('myCtrl', function($scope, $location, $window, $sce, $modal, json
             .then(function(data){
                 to.author = $scope.settings.author;
                 to.email = $scope.settings.email;
-                to.site = $scope.settings.site;
+                to.commentUri = $scope.settings.commentUri;
                 to.root = $scope.settings.postUri;
                 to.data = callback($scope, data);
             }, function(data){
