@@ -16,47 +16,8 @@ app.directive('ngEnter', function() {
     };
 });
 
-app.directive('ycBody', function ($window) {
-    return {
-        restrict: 'A',
-        link: function (scope, element) {
-            scope.heights = function() {
-                return {
-                    window: $window.innerHeight,
-                    body: element[0].offsetHeight
-                };
-            };
-
-            var setFooter = function() {
-                if (scope.windowHeight > scope.bodyHeight + 100) {
-                    scope.footer.style = {
-                        position: 'absolute',
-                        bottom: 0
-                    };
-                } else {
-                    scope.footer.style = {};
-                }
-            };
-
-            scope.$watch(scope.heights, function (newValue, oldValue) {
-                scope.windowHeight = newValue.window;
-                scope.bodyHeight = newValue.body;
-                setFooter();
-            }, true);
-
-            angular.element($window).bind('resize', function(){
-                scope.$apply();
-            });
-        }
-    };
-});
-
 app.directive('ycNavbar', function($window, $location, navigators){
     // navigators="" template-url="" post-uri="" search-uri="" images="" articleCtrl="" searchCtrl=""
-    var orignOffsetTop;
-    function getCurrentOffsetTop(element) {
-        return element.offsetTop
-    }
     return {
         restrict: 'A',
         scope: {
@@ -73,10 +34,6 @@ app.directive('ycNavbar', function($window, $location, navigators){
             return attrs.templateUrl;
         },
         link: function(scope, element, attrs) {
-            orignOffsetTop = element[0].offsetTop;
-            scope.currentOffsetTop = function() {
-                return $window.pageYOffset;
-            };
             navigators.set(scope.navigators);
             scope.navbarCollapsed = true;
             scope.isSelected = function(navigator) {
@@ -85,15 +42,20 @@ app.directive('ycNavbar', function($window, $location, navigators){
             scope.loadSearchResults = function(keywords) {
                 $location.path(scope.searchUri).search('q', keywords);
             };
-            scope.$watch(scope.currentOffsetTop, function(newValue, oldValue){
-                if(newValue > orignOffsetTop) {
-                    angular.element(element).addClass('navbar-fixed-top');
-                } else {
-                    angular.element(element).removeClass('navbar-fixed-top');
-                }
-            });
+
+            var orignOffsetTop = element[0].offsetTop;
+            scope.condition = function() {
+                return $window.pageYOffset > orignOffsetTop;
+            };
+
             angular.element($window).bind('scroll', function(){
-                scope.$apply();
+                scope.$apply(function(){
+                    if(scope.condition()) {
+                        angular.element(element).addClass('navbar-fixed-top');
+                    } else {
+                        angular.element(element).removeClass('navbar-fixed-top');
+                    }
+                });
             });
         },
         controller: function($scope) {
