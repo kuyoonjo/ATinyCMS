@@ -157,6 +157,9 @@ class Navigator(models.Model):
     url = models.URLField(blank=True)
     priority = models.PositiveSmallIntegerField()
 
+    class Meta:
+        ordering = ('priority',)
+
     def __str__(self):
         return self.name
 
